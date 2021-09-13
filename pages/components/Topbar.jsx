@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import logo from "./images/logo.svg"
 
 const Container = styled.div`
   padding: 0 10%;
@@ -100,17 +102,15 @@ const Login = styled.div`
   }
 `;
 
-export default function Topbar(props) {
+export default function Topbar() {
   return (
     <Container>
       <Wrapper>
         <Navbar>
           <Navigation>
             <Logo>
-              <img
-                height={33}
-                src="/_next/static/image/pages/components/images/logo.834643034343520f3b4d7e43111ed4d8.svg"
-                width={121}
+              <Image
+                src={logo}
               />
             </Logo>
             <Links>

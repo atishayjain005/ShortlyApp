@@ -1,5 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import logoWhite from "./images/logoWhite.svg";
+import icon1 from "./images/icon-facebook.svg";
+import icon2 from "./images/icon-twitter.svg";
+import icon3 from "./images/icon-pinterest.svg";
+import icon4 from "./images/icon-instagram.svg";
+
 
 const Container = styled.div``;
 
@@ -11,7 +18,6 @@ const GetStarted = styled.div`
   justify-content: center;
   align-items: center;
   padding: 30px 0 60px 0;
-  background-image: url(_next/static/image/pages/components/images/bg-boost-desktop.772154c9b0e451733f5ef5a737ffe720.svg);
   background-color: #3b3054;
   background-size: cover;
   background-repeat: no-repeat;
@@ -127,7 +133,7 @@ const LinkIcons = styled.div`
   align-items: flex-start;
   gap: 30px;
   padding: 25px 0px 25px 50px;
-  & > a > img {
+  & > a > Image {
     cursor: pointer;
   }
 
@@ -146,10 +152,8 @@ export default function Footer() {
         </GetStarted>
         <FooterContainer>
           <Logo>
-            <img
-              height={33}
-              src="/_next/static/image/pages/components/images/logoWhite.341d8b7d00635e01a661f535fb3453d7.svg"
-              width={121}
+            <Image
+              src={logoWhite}
             />
           </Logo>
           <LinkWrapper>
@@ -176,32 +180,16 @@ export default function Footer() {
             </Links>
             <LinkIcons>
               <a>
-                <img
-                  height={24}
-                  src="/_next/static/image/pages/components/images/icon-facebook.229c75a01827343aef31ae916e2ec18a.svg"
-                  width={24}
-                />
+                <Image src={icon1}/>
               </a>
               <a>
-                <img
-                  height={20}
-                  src="/_next/static/image/pages/components/images/icon-twitter.1d5c6d5e6ab1717a500af2df0a87959a.svg"
-                  width={24}
-                />
+                <Image src={icon2}/>
               </a>
               <a>
-                <img
-                  height={24}
-                  src="/_next/static/image/pages/components/images/icon-pinterest.a2d25ab4c70b78c4028f25323009cc58.svg"
-                  width={24}
-                />
+                <Image src={icon3}/>
               </a>
               <a>
-                <img
-                  height={24}
-                  src="/_next/static/image/pages/components/images/icon-instagram.df5873287e1c06a0fe74440f6ccd8394.svg"
-                  width={24}
-                />
+                <Image src={icon4}/>
               </a>
             </LinkIcons>
           </LinkWrapper>

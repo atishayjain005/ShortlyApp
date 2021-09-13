@@ -1,5 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import icon1 from "./images/icon-brand-recognition.svg";
+import icon2 from "./images/icon-detailed-records.svg";
+import icon3 from "./images/icon-fully-customizable.svg";
 
 const Container = styled.div`
   padding: 5% 10%;
@@ -132,24 +136,20 @@ export default function Statistics() {
           <span></span>
           <Card1>
             <Icon>
-              <img
-                height={40}
-                src="/_next/static/image/pages/components/images/icon-brand-recognition.c349d3b69f7442e5ac3552e4138e72e7.svg"
-                width={40}
+              <Image
+                src={icon1}
               />
             </Icon>
             <h3>Brand Recognition</h3>
             <p>
-              Boost your brand recognition with each click.Generic links don't
+              Boost your brand recognition with each click.Generic links dont
               mean a thing.Branded links help instil confidence in your content
             </p>
           </Card1>
           <Card2>
             <Icon>
-              <img
-                height={40}
-                src="/_next/static/image/pages/components/images/icon-detailed-records.265c8aea77b546e08ba3575f6a8a9f70.svg"
-                width={40}
+              <Image
+                src={icon2}
               />
             </Icon>
             <h3>Detailed Records</h3>
@@ -161,10 +161,8 @@ export default function Statistics() {
           </Card2>
           <Card3>
             <Icon>
-              <img
-                height={40}
-                src="/_next/static/image/pages/components/images/icon-fully-customizable.a1532a74fa781f6fde327313bd5ffce3.svg"
-                width={40}
+              <Image
+                src={icon3}
               />
             </Icon>
             <h3>Fully Customizable</h3>

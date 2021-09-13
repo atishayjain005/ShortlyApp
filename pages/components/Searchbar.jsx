@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+
 const Container = styled.div`
   padding: 5% 10%;
   font-family: "Poppins", sans-serif;
@@ -13,11 +14,12 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
+
+position: relative;
   width: 100%;
   margin: 0;
   padding: 55px 60px;
   background-color: #3b3054;
-  background-image: url("_next/static/image/pages/components/images/bgShortenDesktop.0d9742f433f4b0d8752b40ccf28727af.svg");
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;

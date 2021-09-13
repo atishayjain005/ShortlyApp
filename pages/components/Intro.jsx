@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import personWorking from "./images/illustration-working.svg"
 
 const Container = styled.div`
   padding: 2% 10%;
@@ -25,6 +27,7 @@ const Info = styled.div`
 
   @media only screen and (max-width: 414px) {
     text-align: center;
+    padding: 40px 0;
   }
 
   & > h1 {
@@ -66,7 +69,7 @@ const Info = styled.div`
   }
 `;
 
-const Image = styled.div`
+const ImageWrapper = styled.div`
 
   & > img {
 
@@ -85,19 +88,16 @@ export default function Intro() {
         <Info>
           <h1>More than just shorter links</h1>
           <p>
-            Build your brand's recognition and get detailed insights on how your
+            Build your brands recognition and get detailed insights on how your
             links are performing.
           </p>
           <button>Get started</button>
         </Info>
-        <Image>
-          <img
-            height={482}
-            src="/_next/static/image/pages/components/images/illustration-working.c9b5ef5452363d8be3df709375d50bd0.svg"
-            width={733}
-            alt="a person working icon"
+        <ImageWrapper>
+          <Image
+            src={personWorking}
           />
-        </Image>
+        </ImageWrapper>
       </Wrapper>
     </Container>
   );
