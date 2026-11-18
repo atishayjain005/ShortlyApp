@@ -1,7 +1,7 @@
 # ShortlyApp improvement register — 19 November 2026 IST
 
 Repository: atishayjain005/ShortlyApp. Baseline main 1905000 (September 2021).
-No prior issues, PRs, rejected ideas or hosting configuration found. Original visual design retained.
+No prior issues, PRs, rejected ideas found; hosting metadata was initially empty. PR creation later revealed an existing Netlify integration. Original visual design retained.
 
 | Problem | Proposed improvement | Reason / expected impact | Complexity | Risk | Recommendation | Deployment requirement |
 |---|---|---|---|---|---|---|
@@ -17,6 +17,8 @@ No disruptive changes approved or proposed in this run; no approval deadline or 
 
 ## Validation and release status
 
-Five scoped implementation areas are complete for review, including production-build browser tests and CI. No hosting or provider replacement was introduced. Existing api.shrtco.de failed DNS resolution during this run; mocked API tests establish UI behavior only. Audit still reports 40 findings (11 critical, 20 high, 8 moderate, 1 low). Framework migration and live-provider/hosting verification remain Backlog. No claim of production readiness or deployment.
+Five scoped implementation areas are complete for review, including production-build browser tests and CI. No new hosting or provider replacement was introduced. Existing api.shrtco.de failed DNS resolution during this run; mocked API tests establish UI behavior only. Audit still reports 40 findings (11 critical, 20 high, 8 moderate, 1 low). Framework migration and live-provider/hosting verification remain Backlog. No claim of production readiness or deployment.
 
 Checks before each implementation commit: ESLint, production build using the legacy OpenSSL webpack flag, the expanding browser suite and diff whitespace check. Final suite: 14 cases; long-content layout verified at 320, 768 and 1280 pixels; mobile screenshot inspected. No separate TypeScript check. All original unrelated workspace changes preserved.
+
+After PR creation: both GitHub browser CI runs passed. The existing Netlify integration automatically built a preview and reported it ready. HTTP access and browser navigation timed out, leaving served runtime unverified. No merge or production update. Existing hosting can be reused after verification.

@@ -31,14 +31,14 @@ The GitHub workflow runs lint, production build and browser tests on Ubuntu 24.0
 
 - On 19 November 2026 IST, the existing `api.shrtco.de` hostname failed DNS resolution from the development environment. Live shortening is unverified; the app reports an error and permits retry.
 - The dependency audit reports **40 vulnerabilities** (11 critical, 20 high, 8 moderate, 1 low). Next 11 and the legacy toolchain need a separately scoped upgrade before production release. No forced dependency upgrade has been applied.
-- No hosting target or GitHub Pages configuration was found. No public deployment is claimed.
+- No GitHub Pages configuration or homepage was listed, but opening PR #1 revealed the existing Netlify site `fervent-bardeen-b608d4`. Netlify reports its [preview](https://deploy-preview-1--fervent-bardeen-b608d4.netlify.app) ready. Direct HTTP access and browser navigation timed out here, so served runtime behavior remains unverified. The PR has not been merged; no production update is claimed.
 - Components remain under `pages/components`, inherited from the original project; Next therefore exposes them as standalone routes. A future routing cleanup should accompany the framework migration.
 
 ## Release checklist
 
 1. Scope and approve the framework migration; resolve relevant audit findings and validate compatibility.
 2. Confirm a working, zero-cost shortening provider, its usage terms, browser access and privacy behavior before changing the integration.
-3. Identify an existing free hosting path; do not provision paid services or introduce secrets in browser code.
+3. Verify the existing Netlify preview and its production configuration; do not provision paid services or introduce secrets in browser code.
 4. Run the checks above, review the PR, and verify a real public URL can be shortened and copied on the served release.
 5. Verify keyboard and narrow-screen behavior on the actual deployment before marking release work Done.
 
