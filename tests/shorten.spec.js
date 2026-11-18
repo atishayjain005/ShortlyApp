@@ -78,3 +78,22 @@ for (const denied of [true, false]) {
     }
   });
 }
+test('keyboard entry, landmarks and responsive long results', async ({ page }) => {
+  await page.route('https://api.shrtco.de/**', route => route.fulfill({ json: { ok: true, result: { full_short_link: 'https://example.com/' + 's'.repeat(180) } } }));
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to URL shortener' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  const input = page.getByRole('textbox', { name: 'URL to shorten', exact: true });
+  await expect(input).toBeFocused();
+  await input.fill('https://example.com/' + 'a'.repeat(200));
+  await input.press('Enter');
+  await expect(page.locator('#card')).toBeVisible();
+  await expect(page.getByRole('main')).toHaveCount(1);
+  for (const width of [320, 768, 1280]) {
+    await page.setViewportSize({width, height:900});
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+  await page.setViewportSize({width:320, height:900});
+  await page.screenshot({path: 'test-results/shortly-mobile.png', fullPage:true});
+});

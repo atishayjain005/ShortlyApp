@@ -3,25 +3,26 @@ import Intro from "./components/Intro"
 import Searchbar from "./components/Searchbar"
 import Statistics from "./components/Statistics"
 import Footer from "./components/Footer"
-import styled from 'styled-components';
 import Head from 'next/head'
 
 export default function Home() {
   return (
     <div>
       <Head>
+        <title>Shortly — URL shortening demo</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
-        <meta name="description" content="Web site created using create-react-app" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com"/>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet" />
+        <meta name="description" content="A URL shortening portfolio demo with accessible input and clear request feedback." />
       </Head>
+      <a className="skip-link" href="#textInput">Skip to URL shortener</a>
       <Topbar />
+      <main>
+      <p className="demo-note">Portfolio demo. Shortening depends on an external service; accounts and analytics are not available.</p>
       <Intro />
       <Searchbar/>
       <Statistics />
+      </main>
       <Footer />
     </div>
   )

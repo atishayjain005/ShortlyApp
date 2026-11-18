@@ -22,20 +22,20 @@ const GetStarted = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     padding: 70px 40px;
     text-align: center;
     font-size: 12px;
   }
 
-  & > h1 {
+  & > h2 {
     color: white;
   }
 
-  & > button {
+  & > a {
     font-size: 18px;
     font-weight: 700;
-    color: white;
+    color: #232127;
     background-color: #2acfcf;
     border: none;
     font-family: "Poppins", sans-serif;
@@ -49,7 +49,9 @@ const GetStarted = styled.div`
   }
 `;
 
-const FooterContainer = styled.div`
+const FooterContainer = styled.footer`
+  flex-wrap: wrap;
+  gap: 24px;
   padding: 80px 10%;
   background-color: #232127;
   display: flex;
@@ -57,7 +59,7 @@ const FooterContainer = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -70,12 +72,14 @@ const Logo = styled.div`
 `;
 
 const LinkWrapper = styled.div`
+  flex-wrap: wrap;
+  gap: 24px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -88,7 +92,7 @@ const Links = styled.div`
   justify-content: center;
   align-items: flex-start;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -99,7 +103,7 @@ const Link = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 0 50px;
+  margin: 0 20px;
   color: white;
   cursor: pointer;
 
@@ -111,7 +115,7 @@ const Link = styled.div`
     color: #2acfcf;
   }
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -137,7 +141,7 @@ const LinkIcons = styled.div`
     cursor: pointer;
   }
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     padding: 25% 20% 10% 20%;
   }
 `;
@@ -147,12 +151,12 @@ export default function Footer() {
     <Container>
       <Wrapper>
         <GetStarted>
-          <h1>Boost your links today</h1>
-          <button>Get Started</button>
+          <h2>Shorten a link</h2>
+          <a href="#textInput">Get Started</a>
         </GetStarted>
         <FooterContainer>
           <Logo>
-            <Image
+            <Image alt=""
               src={logoWhite}
             />
           </Logo>
@@ -180,16 +184,16 @@ export default function Footer() {
             </Links>
             <LinkIcons>
               <a>
-                <Image src={icon1}/>
+                <Image alt="" src={icon1}/>
               </a>
               <a>
-                <Image src={icon2}/>
+                <Image alt="" src={icon2}/>
               </a>
               <a>
-                <Image src={icon3}/>
+                <Image alt="" src={icon3}/>
               </a>
               <a>
-                <Image src={icon4}/>
+                <Image alt="" src={icon4}/>
               </a>
             </LinkIcons>
           </LinkWrapper>

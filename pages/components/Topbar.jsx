@@ -7,7 +7,7 @@ const Container = styled.div`
   padding: 0 10%;
   font-family: "Poppins", sans-serif;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     padding: 0 5%;
   }
 `;
@@ -37,7 +37,7 @@ const Logo = styled.div`
 `;
 
 const Links = styled.div`
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     display: none;
   }
 
@@ -68,12 +68,12 @@ const Login = styled.div`
       color: black;
     }
 
-    @media only screen and (max-width: 414px) {
+    @media only screen and (max-width: 900px) {
       padding: 0 10px;
     }
   }
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -96,7 +96,7 @@ const Login = styled.div`
       background: #b2e7e7;
     }
 
-    @media only screen and (max-width: 414px) {
+    @media only screen and (max-width: 900px) {
       padding: 5px 10px;
     }
   }
@@ -109,20 +109,20 @@ export default function Topbar() {
         <Navbar>
           <Navigation>
             <Logo>
-              <Image
+              <Image alt=""
                 src={logo}
               />
             </Logo>
             <Links>
-              <a href="">Features</a>
-              <a href="">Pricing</a>
-              <a href="">Resources</a>
+              <a href="#features">Features</a>
+              <span>Pricing (demo)</span>
+
             </Links>
           </Navigation>
           <Signup>
             <Login>
-              <a href="">Login</a>
-              <button>Sign Up</button>
+              <span>Accounts unavailable</span>
+              <button disabled>Sign Up</button>
             </Login>
           </Signup>
         </Navbar>

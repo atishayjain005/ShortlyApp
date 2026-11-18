@@ -9,7 +9,7 @@ const Container = styled.div`
   padding: 5% 10%;
   background-color: #eff1f7;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     padding: 5% 5%;
   }
 `;
@@ -23,15 +23,16 @@ const Wrapper = styled.div`
 
 const Heading = styled.div`
   text-align: center;
-  padding: 0 400px;
+  max-width: 600px;
+  padding: 0 16px;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     padding: 0 0px;
   }
 
   & > p {
     font-size: 18px;
-    color: #858585;
+    color: #626262;
   }
 `;
 
@@ -51,13 +52,13 @@ const Info = styled.div`
     margin: 0 10%;
     z-index: 0;
 
-    @media only screen and (max-width: 414px) {
+    @media only screen and (max-width: 900px) {
       height: 90%;
       width: 10px;
     }
   }
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -72,7 +73,7 @@ const Card1 = styled.div`
   margin: 15px;
   z-index: 1;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
@@ -85,14 +86,14 @@ const Card1 = styled.div`
   }
 
   & > p {
-    color: #858585;
+    color: #626262;
   }
 `;
 
 const Card2 = styled(Card1)`
   margin-top: 100px;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     margin-top: 50px;
   }
 `;
@@ -100,7 +101,7 @@ const Card2 = styled(Card1)`
 const Card3 = styled(Card1)`
   margin-top: 200px;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     margin-top: 50px;
   }
 `;
@@ -116,27 +117,26 @@ const Icon = styled.div`
   height: 80px;
   margin-top: -70px;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     background-position: center;
   }
 `;
 
 export default function Statistics() {
   return (
-    <Container>
+    <Container id="features">
       <Wrapper>
         <Heading>
-          <h1>Advanced Statistics</h1>
+          <h2>Design concept: Advanced Statistics</h2>
           <p>
-            Track how your links are performing across the web with our advanced
-            statistics dashboard.
+            The cards below illustrate the original design concept. Analytics, branded links and customization are not implemented in this demo.
           </p>
         </Heading>
         <Info>
           <span></span>
           <Card1>
             <Icon>
-              <Image
+              <Image alt=""
                 src={icon1}
               />
             </Icon>
@@ -148,7 +148,7 @@ export default function Statistics() {
           </Card1>
           <Card2>
             <Icon>
-              <Image
+              <Image alt=""
                 src={icon2}
               />
             </Icon>
@@ -161,7 +161,7 @@ export default function Statistics() {
           </Card2>
           <Card3>
             <Icon>
-              <Image
+              <Image alt=""
                 src={icon3}
               />
             </Icon>

@@ -8,7 +8,7 @@ const Container = styled.div`
   background-image: linear-gradient(white, #eff1f7);
   background-size: 50%;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     padding: 5% 5%;
   }
 `;
@@ -28,7 +28,7 @@ position: relative;
   align-items: center;
   border-radius: 10px;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -45,32 +45,31 @@ const Input = styled.input.attrs((props) => ({
   size: props.size || "3em",
 }))`
   height: 60px;
-  color: palevioletred;
+  color: #232127;
   font-size: 18px;
   border: 2px solid palevioletred;
   border-radius: 10px;
   width: 100%;
   padding: 10px 20px;
   margin: 0;
-  outline: none;
+
   font-family: "Poppins", sans-serif;
 `;
 
 const Alert = styled.blockquote`
 
-  position: absolute;
-  margin: 0.5% 0.5%;
-  color: red;
+  margin: 12px 0 0;
+  color: #fff;
   font-family: "Poppins", sans-serif;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     font-size: 12px;
   }
 `;
 
 const Button = styled.button`
   background: #2acfcf;
-  color: white;
+  color: #232127;
   height: 60px;
   width: 200px;
   display: flex;
@@ -89,7 +88,7 @@ const Button = styled.button`
     background: #b2e7e7;
   }
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     width: 100%;
     margin: 30px 0px 0 0;
   }
@@ -105,12 +104,15 @@ const Card = styled.div`
 `;
 
 const LinksContainer = styled.div`
+  gap: 20px;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
   display: flex;
   flex-basis: 100%;
   justify-content: space-between;
   align-items: center;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -119,7 +121,9 @@ const LinksContainer = styled.div`
 `;
 
 const Originallink = styled.a`
-  @media only screen and (max-width: 414px) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  @media only screen and (max-width: 900px) {
     text-align: left;
     border-bottom: solid 1px #bfbfbf;
     font-size: 14px;
@@ -133,11 +137,11 @@ const Copy = styled.button`
   background-color: #2acfcf;
   border: none;
   margin: 0;
-  outline: none;
+
   border-radius: 10px;
   font-size: 16px;
   padding: 12px 40px;
-  color: white;
+  color: #232127;
   font-weight: 700;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -145,18 +149,21 @@ const Copy = styled.button`
     background: #b2e7e7;
   }
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     width: 100%;
     justify-content: stretch;
   }
 `;
 
 const Shortlink = styled.div`
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -167,10 +174,10 @@ const Shortlink = styled.div`
 `;
 
 const Short = styled.a`
-  color: #2acfcf;
+  color: #136868;
   margin-right: 15px;
 
-  @media only screen and (max-width: 414px) {
+  @media only screen and (max-width: 900px) {
     font-size: 14px;
     padding-bottom: 5px;
   }
@@ -241,12 +248,14 @@ export default function Searchbar() {
 
   return (
     <Container id="shorten">
+      <p id="shorten-help">Enter a public HTTP or HTTPS link. It will be sent to the external shortening service.</p>
       <Wrapper as="form" onSubmit={shorten} noValidate>
         <Inputarea>
-          <Input id="textInput" aria-label="URL to shorten" disabled={pending} value={input}
+          <label htmlFor="textInput" style={{color: "white"}}>URL to shorten</label>
+          <Input id="textInput" type="url" aria-invalid={Boolean(error)} aria-describedby={error ? "shorten-error" : "shorten-help"} aria-label="URL to shorten" disabled={pending} value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="Shorten a link here..." />
-          {error && <Alert role="alert">{error}</Alert>}
+          {error && <Alert id="shorten-error" role="alert">{error}</Alert>}
         </Inputarea>
         <Button type="submit" disabled={pending}>{pending ? "Shortening…" : "Shorten it!"}</Button>
       </Wrapper>
