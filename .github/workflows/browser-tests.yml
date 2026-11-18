@@ -1,0 +1,23 @@
+name: Browser regression tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  browser-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npm run lint
+      - run: npm run build
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+      - run: npm test
