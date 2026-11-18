@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 
@@ -57,7 +57,7 @@ const Input = styled.input.attrs((props) => ({
 `;
 
 const Alert = styled.blockquote`
-  display: none;
+
   position: absolute;
   margin: 0.5% 0.5%;
   color: red;
@@ -96,7 +96,7 @@ const Button = styled.button`
 `;
 
 const Card = styled.div`
-  display: none;
+
   background-color: white;
   padding: 20px 20px;
   margin: 20px 0px;
@@ -176,82 +176,69 @@ const Short = styled.a`
   }
 `;
 
+
+function validUrl(value) {
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+}
+
 export default function Searchbar() {
-  //
-  const requestOptions = {
-    method: "GET",
-    headers: { "Content-Type": "text/plain" },
-  };
-  async function my_async_fn(url) {
-    let data = await fetch(url, requestOptions)
-      .then((resp) => {
-        console.log("Data fetched", resp), (error) => console.log(error);
-        return resp.json();
-      })
-      .then((data) => {
-        console.log(data);
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
 
-        const card = document.getElementById("card");
-        card.style.display = "block";
-
-        const short = document.getElementById("short");
-        short.innerHTML = data.result.full_short_link;
-
-        const ourLink = document.getElementById("ourLink");
-        ourLink.innerHTML = data.result.original_link;
-
-        console.log(JSON.stringify(data, null, 2));
-      });
-    return data;
+  async function shorten(event) {
+    event.preventDefault();
+    setResult(null);
+    setError("");
+    setCopied(false);
+    const original = input.trim();
+    if (!validUrl(original)) {
+      setError("Enter a complete http:// or https:// URL without credentials.");
+      return;
+    }
+    try {
+      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(original)}`);
+      const data = await response.json();
+      if (!response.ok || !data.ok || !validUrl(data.result?.full_short_link)) {
+        throw new Error("Invalid response");
+      }
+      setResult({ original, short: data.result.full_short_link });
+    } catch {
+      setError("Unable to shorten this link. Please try again.");
+    }
   }
 
-  const validate = () => {
-    const input = document.getElementById("textInput");
-    const alert = document.getElementById("alert");
-    console.log(input);
-    if (input.value.length < 5) {
-      alert.style.display = "block";
-      console.log("yoyo");
-    } else {
-      alert.style.display = "none";
-      my_async_fn(`https://api.shrtco.de/v2/shorten?url=${input.value}`);
-    }
-  };
-
-  const copyFunc = () => {
-    const copy = document.getElementById("copy");
-    copy.style.backgroundColor = "#35323e";
-    copy.innerText = "Copied!";
-    setTimeout(() => {
-      copy.innerText = "Copy";
-      copy.style.backgroundColor = "#2acfcf";
-    }, 10000);
-    const short = document.getElementById("short");
-    navigator.clipboard.writeText(short.innerText);
-  };
+  async function copy() {
+    await navigator.clipboard.writeText(result.short);
+    setCopied(true);
+  }
 
   return (
-    <Container>
-      <Wrapper>
+    <Container id="shorten">
+      <Wrapper as="form" onSubmit={shorten} noValidate>
         <Inputarea>
-          <Input id="textInput" placeholder="Shorten a link here..." />
-          <Alert id="alert">
-            <em>Please add a link</em>
-          </Alert>
+          <Input id="textInput" aria-label="URL to shorten" value={input}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="Shorten a link here..." />
+          {error && <Alert role="alert">{error}</Alert>}
         </Inputarea>
-        <Button onClick={validate}>Shorten it!</Button>
+        <Button type="submit">Shorten it!</Button>
       </Wrapper>
-      <Card id="card">
+      {result && <Card id="card">
         <LinksContainer>
-          <Originallink id="ourLink">our link</Originallink>
+          <Originallink href={result.original}>{result.original}</Originallink>
           <Shortlink>
-            <Short id="short">short link</Short>
-            <Copy id="copy" onClick={copyFunc}>
-              Copy
-            </Copy>
+            <Short href={result.short}>{result.short}</Short>
+            <Copy type="button" onClick={copy}>{copied ? "Copied!" : "Copy"}</Copy>
           </Shortlink>
         </LinksContainer>
-      </Card>
+      </Card>}
     </Container>
   );
 }
