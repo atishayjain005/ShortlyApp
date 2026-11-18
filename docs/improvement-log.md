@@ -14,3 +14,9 @@ No prior issues, PRs, rejected ideas or hosting configuration found. Original vi
 | External shortener availability and no host | Verify existing free provider and hosting before release | Avoid claiming an unverified service as production-ready | Medium | External service failure | Backlog | Existing free infrastructure only |
 
 No disruptive changes approved or proposed in this run; no approval deadline or auto-approval.
+
+## Validation and release status
+
+Five scoped implementation areas are complete for review, including production-build browser tests and CI. No hosting or provider replacement was introduced. Existing api.shrtco.de failed DNS resolution during this run; mocked API tests establish UI behavior only. Audit still reports 40 findings (11 critical, 20 high, 8 moderate, 1 low). Framework migration and live-provider/hosting verification remain Backlog. No claim of production readiness or deployment.
+
+Checks before each implementation commit: ESLint, production build using the legacy OpenSSL webpack flag, the expanding browser suite and diff whitespace check. Final suite: 14 cases; long-content layout verified at 320, 768 and 1280 pixels; mobile screenshot inspected. No separate TypeScript check. All original unrelated workspace changes preserved.
