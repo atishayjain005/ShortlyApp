@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 
@@ -190,10 +190,14 @@ export default function Searchbar() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
+  const activeRequest = useRef(null);
+  useEffect(() => () => activeRequest.current?.abort(), []);
   const [copied, setCopied] = useState(false);
 
   async function shorten(event) {
     event.preventDefault();
+    if (activeRequest.current) return;
     setResult(null);
     setError("");
     setCopied(false);
@@ -202,15 +206,23 @@ export default function Searchbar() {
       setError("Enter a complete http:// or https:// URL without credentials.");
       return;
     }
+    const controller = new AbortController();
+    activeRequest.current = controller;
+    setPending(true);
+    const timer = setTimeout(() => controller.abort(), 10000);
     try {
-      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(original)}`);
+      const response = await fetch(`https://api.shrtco.de/v2/shorten?url=${encodeURIComponent(original)}`, { signal: controller.signal });
       const data = await response.json();
       if (!response.ok || !data.ok || !validUrl(data.result?.full_short_link)) {
         throw new Error("Invalid response");
       }
       setResult({ original, short: data.result.full_short_link });
     } catch {
-      setError("Unable to shorten this link. Please try again.");
+      setError(controller.signal.aborted ? "The request timed out. Please try again." : "Unable to shorten this link. The service may be unavailable. Please try again.");
+    } finally {
+      clearTimeout(timer);
+      activeRequest.current = null;
+      setPending(false);
     }
   }
 
@@ -223,13 +235,14 @@ export default function Searchbar() {
     <Container id="shorten">
       <Wrapper as="form" onSubmit={shorten} noValidate>
         <Inputarea>
-          <Input id="textInput" aria-label="URL to shorten" value={input}
+          <Input id="textInput" aria-label="URL to shorten" disabled={pending} value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="Shorten a link here..." />
           {error && <Alert role="alert">{error}</Alert>}
         </Inputarea>
-        <Button type="submit">Shorten it!</Button>
+        <Button type="submit" disabled={pending}>{pending ? "Shortening…" : "Shorten it!"}</Button>
       </Wrapper>
+      <p role="status">{pending ? "Shortening your link…" : result ? "Your shortened link is ready." : ""}</p>
       {result && <Card id="card">
         <LinksContainer>
           <Originallink href={result.original}>{result.original}</Originallink>

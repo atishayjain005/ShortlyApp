@@ -24,3 +24,31 @@ test('rejects unsafe input and unsafe returned links', async ({ page }) => {
   await expect(page.locator('#shorten').getByRole('alert')).toContainText('Unable');
   await expect(page.locator('#card')).toHaveCount(0);
 });
+test('shows pending, recovers from errors and allows retry', async ({ page }) => {
+  let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  await page.route('https://api.shrtco.de/**', async route => {
+    await gate;
+    await route.fulfill({ status: 503, json: { ok: false } });
+  });
+  await page.goto('/');
+  await page.getByRole('textbox', { name: 'URL to shorten' }).fill('https://example.com');
+  await page.getByRole('button', { name: 'Shorten it!' }).click();
+  await expect(page.getByRole('button', { name: 'Shortening…', exact: true })).toBeDisabled();
+  release();
+  await expect(page.locator('#shorten').getByRole('alert')).toContainText('service may be unavailable');
+  await page.unroute('https://api.shrtco.de/**');
+  await page.route('https://api.shrtco.de/**', route => route.fulfill({ json: { ok: true, result: { full_short_link: 'https://example.com/retry' } } }));
+  await page.getByRole('button', { name: 'Shorten it!' }).click();
+  await expect(page.locator('#card')).toContainText('/retry');
+});
+test('times out a stalled request', async ({ page }) => {
+  await page.route('https://api.shrtco.de/**', () => {});
+  await page.goto('/');
+  await page.clock.install();
+  await page.getByRole('textbox', { name: 'URL to shorten' }).fill('https://example.com');
+  await page.getByRole('button', { name: 'Shorten it!' }).click();
+  await page.clock.fastForward(11000);
+  await expect(page.locator('#shorten').getByRole('alert')).toContainText('timed out');
+  await expect(page.getByRole('button', { name: 'Shorten it!' })).toBeEnabled();
+});
