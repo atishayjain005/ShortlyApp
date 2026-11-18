@@ -52,3 +52,29 @@ test('times out a stalled request', async ({ page }) => {
   await expect(page.locator('#shorten').getByRole('alert')).toContainText('timed out');
   await expect(page.getByRole('button', { name: 'Shorten it!' })).toBeEnabled();
 });
+for (const denied of [true, false]) {
+  test('clipboard ' + (denied ? 'denial selects manual fallback' : 'success is confirmed'), async ({ page }) => {
+    await page.addInitScript(denied => {
+      Object.defineProperty(navigator, 'clipboard', { value: {
+        writeText: async text => {
+          if (denied) throw new Error('Denied');
+          window.copiedValue = text;
+        }
+      } });
+    }, denied);
+    await page.route('https://api.shrtco.de/**', route => route.fulfill({ json: { ok: true, result: { full_short_link: 'https://example.com/copied' } } }));
+    await page.goto('/');
+    await page.getByRole('textbox', { name: 'URL to shorten', exact: true }).fill('https://example.com');
+    await page.getByRole('button', { name: 'Shorten it!' }).click();
+    await page.getByRole('button', { name: 'Copy', exact: true }).click();
+    if (denied) {
+      await expect(page.locator('#card').getByRole('status')).toContainText('copy it manually');
+      await expect(page.locator('#short-url')).toBeFocused();
+      expect(await page.locator('#short-url').evaluate(el => el.selectionEnd - el.selectionStart)).toBe('https://example.com/copied'.length);
+      await expect(page.getByRole('button', { name: 'Copied!', exact: true })).toHaveCount(0);
+    } else {
+      await expect(page.getByRole('button', { name: 'Copied!', exact: true })).toBeVisible();
+      expect(await page.evaluate(() => window.copiedValue)).toBe('https://example.com/copied');
+    }
+  });
+}

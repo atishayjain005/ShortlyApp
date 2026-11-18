@@ -193,14 +193,15 @@ export default function Searchbar() {
   const [pending, setPending] = useState(false);
   const activeRequest = useRef(null);
   useEffect(() => () => activeRequest.current?.abort(), []);
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState("");
+  const shortInput = useRef(null);
 
   async function shorten(event) {
     event.preventDefault();
     if (activeRequest.current) return;
     setResult(null);
     setError("");
-    setCopied(false);
+    setCopyState("");
     const original = input.trim();
     if (!validUrl(original)) {
       setError("Enter a complete http:// or https:// URL without credentials.");
@@ -227,8 +228,15 @@ export default function Searchbar() {
   }
 
   async function copy() {
-    await navigator.clipboard.writeText(result.short);
-    setCopied(true);
+    setCopyState("copying");
+    try {
+      await navigator.clipboard.writeText(result.short);
+      setCopyState("copied");
+    } catch {
+      setCopyState("failed");
+      shortInput.current?.focus();
+      shortInput.current?.select();
+    }
   }
 
   return (
@@ -248,9 +256,12 @@ export default function Searchbar() {
           <Originallink href={result.original}>{result.original}</Originallink>
           <Shortlink>
             <Short href={result.short}>{result.short}</Short>
-            <Copy type="button" onClick={copy}>{copied ? "Copied!" : "Copy"}</Copy>
+            <Copy type="button" disabled={copyState === "copying"} onClick={copy}>{copyState === "copied" ? "Copied!" : "Copy"}</Copy>
           </Shortlink>
         </LinksContainer>
+        <label htmlFor="short-url">Shortened URL (select to copy manually)</label>
+        <input id="short-url" ref={shortInput} readOnly value={result.short} />
+        <p role="status">{copyState === "failed" ? "Copy unavailable. The link is selected; copy it manually." : copyState === "copied" ? "Link copied to clipboard." : ""}</p>
       </Card>}
     </Container>
   );
